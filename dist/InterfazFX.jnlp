@@ -8,7 +8,7 @@
   </information>
   <resources>
     <j2se version="1.6+" href="http://java.sun.com/products/autodl/j2se"/>
-    <jar href="InterfazFX.jar" size="39889" download="eager" />
+    <jar href="InterfazFX.jar" size="40131" download="eager" />
     <jar href="lib\controlsfx-8.40.12.jar" size="996389" download="eager" />
     <jar href="lib\guava-18.0.jar" size="2256213" download="eager" />
     <jar href="lib\jaybird-full-2.2.12.jar" size="933673" download="eager" />

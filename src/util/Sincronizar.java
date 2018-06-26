@@ -11,6 +11,8 @@ import java.sql.SQLException;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.application.Platform;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.DoubleProperty;
@@ -106,6 +108,7 @@ public class Sincronizar extends Thread{
                      "inner join salmaterial sm on sm.matid = m.matid  "+
                      "inner join bodega b on b.bodid = sm.bodid        "+
                      "where ms.fecultcli>='"+Util.fechaUltimaAct+"'    "+
+                     " or ms.fecact>='"+Util.fechaUltimaAct+"'    "+
                      "   or ms.fecultprov>='"+Util.fechaUltimaAct+"'   ";
            
             String articulo = "";
@@ -147,7 +150,7 @@ public class Sincronizar extends Thread{
                 sql = " UPDATE oc_product SET isbn = '"+item.getExistenciaBodega()+"', quantity = "+item.getTotal()+", "+
                       " price = "+item.getPrecio()+"   WHERE model = '"+item.getCodigo()+"'";
                 try {
-                    //conMySQL.actualizar(sql);
+                    conMySQL.actualizar(sql);
                     progressProperty.setValue(progressProperty.getValue() + (1.0 / items.size()));
                     progressIdProperty.setValue(progressIdProperty.getValue() + (1.0 / items.size()));
                     cantidad.setValue(x + 1);
@@ -160,6 +163,10 @@ public class Sincronizar extends Thread{
                 catch (InterruptedException ex) {
                     this.esperar(x);
                     this.actualizarArticulos(x);
+                } catch (ClassNotFoundException ex) {
+                    Logger.getLogger(Sincronizar.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (SQLException ex) {
+                    Logger.getLogger(Sincronizar.class.getName()).log(Level.SEVERE, null, ex);
                 }
                 System.out.println("Run "+(x + 1)+" de "+items.size());
             }
